@@ -17,6 +17,8 @@ You will also need [List Card by @iantrich](https://github.com/iantrich/list-car
 
 The YAML file is for a complete dashboard.  You can paste it into the raw configuration editor on a new Lovelace dashboard. I plan on converting it to use Decluttering card at some pont to make it more manageable. 
 
+![NHL Standings List Card](standings-list-card.png)
+
 ## Sensors
 
 | entity                               | description                |
