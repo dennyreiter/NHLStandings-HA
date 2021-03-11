@@ -16,3 +16,13 @@ You will also need [List Card by @iantrich](https://github.com/iantrich/list-car
 [lovelace-card-mod](https://github.com/thomasloven/lovelace-card-mod) would be useful for styling the tables so they are not so fugly.
 
 The YAML file is for a complete dashboard.  You can paste it into the raw configuration editor on a new Lovelace dashboard. I plan on converting it to use Decluttering card at some pont to make it more manageable. 
+
+## Sensors
+
+| entity                               | descirption                |
+---------------------------------------------------------------------
+| sensor.nhl_standings                 | Current League Standings   |
+| sensor.nhl_division_discover_central | Central Division standings |
+| sensor.nhl_division_honda_west       | West Division standings    |
+| sensor.nhl_division_scotia_north     | North Division standings   |
+| sensor.nhl_division_mass_mutual_east | East Division standings    | 
