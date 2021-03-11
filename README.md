@@ -19,8 +19,8 @@ The YAML file is for a complete dashboard.  You can paste it into the raw config
 
 ## Sensors
 
-| entity                               | descirption                |
----------------------------------------------------------------------
+| entity                               | description                |
+|--------------------------------------|----------------------------|
 | sensor.nhl_standings                 | Current League Standings   |
 | sensor.nhl_division_discover_central | Central Division standings |
 | sensor.nhl_division_honda_west       | West Division standings    |
