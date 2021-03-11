@@ -28,3 +28,6 @@ The YAML file is for a complete dashboard.  You can paste it into the raw config
 | sensor.nhl_division_honda_west       | West Division standings    |
 | sensor.nhl_division_scotia_north     | North Division standings   |
 | sensor.nhl_division_mass_mutual_east | East Division standings    | 
+
+## Credits
+https://gitlab.com/dword4/nhlapi
