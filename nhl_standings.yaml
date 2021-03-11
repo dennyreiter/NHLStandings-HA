@@ -1,0 +1,258 @@
+views:
+  - title: League
+    path: league
+    panel: true
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: 'custom:list-card'
+            title: NHL League Standings
+            entity: sensor.nhl_standings
+            feed_attribute: rank
+            columns:
+              - title: Rank
+                field: leagueRank
+              - title: ''
+                type: image
+                field: logo
+                add_link: teamLink
+              - title: Team
+                field: locationName
+                add_link: teamLink
+              - title: GP
+                field: gamesPlayed
+              - title: W
+                field: wins
+              - title: L
+                field: losses
+              - title: OT
+                field: ot
+              - title: PTS
+                field: points
+              - title: P%
+                field: pointsPercentage
+              - title: RW
+                field: regulationWins
+              - title: ROW
+                field: row
+              - title: GF
+                field: goalsScored
+              - title: GA
+                field: goalsAgainst
+              - title: DIFF
+                field: diff
+              - title: HOME
+                field: homeRecord
+              - title: AWAY
+                field: awayRecord
+              - title: S/O
+                field: shootOutsRecord
+              - title: L10
+                field: lastTenRecord
+              - title: STRK
+                field: streakCode
+  - title: East
+    path: east
+    panel: true
+    badges: []
+    cards:
+      - type: 'custom:list-card'
+        title: NHL Mass Mutual East Standings
+        entity: sensor.nhl_division_mass_mutual_east
+        feed_attribute: team_records
+        columns:
+          - title: Rank
+            field: divisionRank
+          - title: ''
+            field: logo
+            type: image
+            add_link: teamLink
+          - title: Team
+            field: locationName
+            add_link: teamLink
+          - title: GP
+            field: gamesPlayed
+          - title: W
+            field: wins
+          - title: L
+            field: losses
+          - title: OT
+            field: ot
+          - title: PTS
+            field: points
+          - title: P%
+            field: pointsPercentage
+          - title: RW
+            field: regulationWins
+          - title: ROW
+            field: row
+          - title: GF
+            field: goalsScored
+          - title: GA
+            field: goalsAgainst
+          - title: DIFF
+            field: diff
+          - title: HOME
+            field: homeRecord
+          - title: AWAY
+            field: awayRecord
+          - title: S/O
+            field: shootOutsRecord
+          - title: L10
+            field: lastTenRecord
+          - title: STRK
+            field: streakCode
+  - title: Central
+    path: central
+    panel: true
+    badges: []
+    cards:
+      - type: 'custom:list-card'
+        title: NHL Discover Central Standings
+        entity: sensor.nhl_division_discover_central
+        feed_attribute: team_records
+        columns:
+          - title: Rank
+            field: divisionRank
+          - title: ''
+            field: logo
+            type: image
+            add_link: teamLink
+          - title: Team
+            field: locationName
+            add_link: teamLink
+          - title: GP
+            field: gamesPlayed
+          - title: W
+            field: wins
+          - title: L
+            field: losses
+          - title: OT
+            field: ot
+          - title: PTS
+            field: points
+          - title: P%
+            field: pointsPercentage
+          - title: RW
+            field: regulationWins
+          - title: ROW
+            field: row
+          - title: GF
+            field: goalsScored
+          - title: GA
+            field: goalsAgainst
+          - title: DIFF
+            field: diff
+          - title: HOME
+            field: homeRecord
+          - title: AWAY
+            field: awayRecord
+          - title: S/O
+            field: shootOutsRecord
+          - title: L10
+            field: lastTenRecord
+          - title: STRK
+            field: streakCode
+  - title: West
+    path: west
+    panel: true
+    badges: []
+    cards:
+      - type: 'custom:list-card'
+        title: NHL Honda West Standings
+        entity: sensor.nhl_division_honda_west
+        feed_attribute: team_records
+        columns:
+          - title: Rank
+            field: divisionRank
+          - title: ''
+            field: logo
+            type: image
+            add_link: teamLink
+          - title: Team
+            field: locationName
+            add_link: teamLink
+          - title: GP
+            field: gamesPlayed
+          - title: W
+            field: wins
+          - title: L
+            field: losses
+          - title: OT
+            field: ot
+          - title: PTS
+            field: points
+          - title: P%
+            field: pointsPercentage
+          - title: RW
+            field: regulationWins
+          - title: ROW
+            field: row
+          - title: GF
+            field: goalsScored
+          - title: GA
+            field: goalsAgainst
+          - title: DIFF
+            field: diff
+          - title: HOME
+            field: homeRecord
+          - title: AWAY
+            field: awayRecord
+          - title: S/O
+            field: shootOutsRecord
+          - title: L10
+            field: lastTenRecord
+          - title: STRK
+            field: streakCode
+  - title: North
+    path: north
+    panel: true
+    badges: []
+    cards:
+      - type: 'custom:list-card'
+        title: NHL Scotia North Standings
+        entity: sensor.nhl_division_scotia_north
+        feed_attribute: team_records
+        columns:
+          - title: Rank
+            field: divisionRank
+          - title: ''
+            field: logo
+            type: image
+            add_link: teamLink
+          - title: Team
+            field: locationName
+            add_link: teamLink
+          - title: GP
+            field: gamesPlayed
+          - title: W
+            field: wins
+          - title: L
+            field: losses
+          - title: OT
+            field: ot
+          - title: PTS
+            field: points
+          - title: P%
+            field: pointsPercentage
+          - title: RW
+            field: regulationWins
+          - title: ROW
+            field: row
+          - title: GF
+            field: goalsScored
+          - title: GA
+            field: goalsAgainst
+          - title: DIFF
+            field: diff
+          - title: HOME
+            field: homeRecord
+          - title: AWAY
+            field: awayRecord
+          - title: S/O
+            field: shootOutsRecord
+          - title: L10
+            field: lastTenRecord
+          - title: STRK
+            field: streakCode
