@@ -1,0 +1,891 @@
+[
+    {
+        "id": "14de7b74.bc96a5",
+        "type": "inject",
+        "z": "de8bfe3.4ac5e",
+        "name": "Get Hockey Standings",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "3600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 780,
+        "wires": [
+            [
+                "67e42bb8.c1fc04"
+            ]
+        ]
+    },
+    {
+        "id": "567cec2a.532a94",
+        "type": "comment",
+        "z": "de8bfe3.4ac5e",
+        "name": "NHL Standings",
+        "info": "",
+        "x": 100,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "67e42bb8.c1fc04",
+        "type": "change",
+        "z": "de8bfe3.4ac5e",
+        "name": "Standings API",
+        "rules": [
+            {
+                "t": "set",
+                "p": "headers['User-Agent']",
+                "pt": "msg",
+                "to": "Chrome/68.0.3440.106 Safari/537.36",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "url",
+                "pt": "msg",
+                "to": "https://statsapi.web.nhl.com/api/v1/standings?expand=standings.record",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 416,
+        "y": 780,
+        "wires": [
+            [
+                "33a48685.cb4bba"
+            ]
+        ]
+    },
+    {
+        "id": "33a48685.cb4bba",
+        "type": "http request",
+        "z": "de8bfe3.4ac5e",
+        "name": "GET",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 600,
+        "y": 780,
+        "wires": [
+            [
+                "db4bb10.80c765"
+            ]
+        ]
+    },
+    {
+        "id": "d9b4f839.8e9b78",
+        "type": "link out",
+        "z": "de8bfe3.4ac5e",
+        "name": "Divisions Out",
+        "links": [
+            "8e8568b8.b21068"
+        ],
+        "x": 1162,
+        "y": 809,
+        "wires": []
+    },
+    {
+        "id": "8e8568b8.b21068",
+        "type": "link in",
+        "z": "de8bfe3.4ac5e",
+        "name": "Divisiions In",
+        "links": [
+            "d9b4f839.8e9b78"
+        ],
+        "x": 35,
+        "y": 920,
+        "wires": [
+            [
+                "742d9182.40d5f"
+            ]
+        ]
+    },
+    {
+        "id": "d4c20ba3.0838b8",
+        "type": "ha-entity",
+        "z": "de8bfe3.4ac5e",
+        "name": "League Standings",
+        "server": "cacdccbf.2b6e9",
+        "version": 1,
+        "debugenabled": true,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "nhl_standings"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:hockey-sticks"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "",
+        "stateType": "date",
+        "attributes": [
+            {
+                "property": "rank",
+                "value": "league",
+                "valueType": "flow"
+            }
+        ],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "$entity().state ? \"on\": \"off\"",
+        "outputPayloadType": "jsonata",
+        "x": 1230,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "61a1ecc.6700c14",
+        "type": "array-loop",
+        "z": "de8bfe3.4ac5e",
+        "name": "Iterate Divisions",
+        "key": "al61a1ecc6700c15",
+        "keyType": "msg",
+        "reset": false,
+        "resetValue": "value-null",
+        "array": "divisions",
+        "arrayType": "flow",
+        "x": 1030,
+        "y": 780,
+        "wires": [
+            [
+                "d4c20ba3.0838b8"
+            ],
+            [
+                "d9b4f839.8e9b78"
+            ]
+        ]
+    },
+    {
+        "id": "db4bb10.80c765",
+        "type": "change",
+        "z": "de8bfe3.4ac5e",
+        "name": "Set up flows",
+        "rules": [
+            {
+                "t": "set",
+                "p": "divisions",
+                "pt": "flow",
+                "to": "payload.records",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "league",
+                "pt": "flow",
+                "to": "[]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810,
+        "y": 780,
+        "wires": [
+            [
+                "61a1ecc.6700c14"
+            ]
+        ]
+    },
+    {
+        "id": "87a850f6.38958",
+        "type": "link out",
+        "z": "de8bfe3.4ac5e",
+        "name": "Continue Division Loop Out",
+        "links": [
+            "1728aa86.39fd45"
+        ],
+        "x": 1075,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "1728aa86.39fd45",
+        "type": "link in",
+        "z": "de8bfe3.4ac5e",
+        "name": "Continue Division Loop In",
+        "links": [
+            "87a850f6.38958"
+        ],
+        "x": 865,
+        "y": 720,
+        "wires": [
+            [
+                "61a1ecc.6700c14"
+            ]
+        ]
+    },
+    {
+        "id": "742d9182.40d5f",
+        "type": "change",
+        "z": "de8bfe3.4ac5e",
+        "name": "Division Info",
+        "rules": [
+            {
+                "t": "set",
+                "p": "nhl_division_id",
+                "pt": "flow",
+                "to": "payload.division.id",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "nhl_division_name",
+                "pt": "flow",
+                "to": "payload.division.name",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "nhl_standings_type",
+                "pt": "flow",
+                "to": "payload.standingsType",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 150,
+        "y": 920,
+        "wires": [
+            [
+                "29131131.3c8b3e"
+            ]
+        ]
+    },
+    {
+        "id": "8aa2ff15.31b57",
+        "type": "switch",
+        "z": "de8bfe3.4ac5e",
+        "name": "",
+        "property": "nhl_division_id",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "25",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "26",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "27",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "28",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 160,
+        "y": 1120,
+        "wires": [
+            [
+                "b5ccc9b1.d864a8"
+            ],
+            [
+                "a764183e.252508"
+            ],
+            [
+                "2a54fdfb.688c52"
+            ],
+            [
+                "19f2c608.ef3c1a"
+            ],
+            [
+                "e7024bbb.eb4958"
+            ]
+        ]
+    },
+    {
+        "id": "e7024bbb.eb4958",
+        "type": "debug",
+        "z": "de8bfe3.4ac5e",
+        "name": "Impossibru Division!",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "$flowContext('nhl_division_id')",
+        "statusType": "jsonata",
+        "x": 450,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "a211891c.67bbe8",
+        "type": "array-loop",
+        "z": "de8bfe3.4ac5e",
+        "name": "Iterate Teams",
+        "key": "al61a1ecc6700c14",
+        "keyType": "msg",
+        "reset": true,
+        "resetValue": "value-null",
+        "array": "teams",
+        "arrayType": "flow",
+        "x": 940,
+        "y": 1100,
+        "wires": [
+            [
+                "87a850f6.38958"
+            ],
+            [
+                "7fe06237.89033c"
+            ]
+        ]
+    },
+    {
+        "id": "6b579b80.e7cb74",
+        "type": "link out",
+        "z": "de8bfe3.4ac5e",
+        "name": "Rankings Out",
+        "links": [
+            "61135864.4e5248"
+        ],
+        "x": 1335,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "61135864.4e5248",
+        "type": "link in",
+        "z": "de8bfe3.4ac5e",
+        "name": "Rankings In",
+        "links": [
+            "6b579b80.e7cb74"
+        ],
+        "x": 795,
+        "y": 1060,
+        "wires": [
+            [
+                "a211891c.67bbe8"
+            ]
+        ]
+    },
+    {
+        "id": "7fe06237.89033c",
+        "type": "function",
+        "z": "de8bfe3.4ac5e",
+        "name": "Fix up team division info",
+        "func": "\nmsg.payload.division_name = flow.get('nhl_division_name');\nmsg.payload.division_id = flow.get('nhl_division_id');\nmsg.payload.standings_type = flow.get('nhl_standings_type');\nlet dict = flow.get('league') || {};\ndict[parseInt(msg.payload.leagueRank)-1] = msg.payload;\nflow.set('league', dict);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1170,
+        "y": 1140,
+        "wires": [
+            [
+                "6b579b80.e7cb74"
+            ]
+        ]
+    },
+    {
+        "id": "a764183e.252508",
+        "type": "ha-entity",
+        "z": "de8bfe3.4ac5e",
+        "name": "Discover Central",
+        "server": "cacdccbf.2b6e9",
+        "version": 1,
+        "debugenabled": true,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "nhl_division_discover_central"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:hockey-sticks"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "teams[0].name",
+        "stateType": "flow",
+        "attributes": [
+            {
+                "property": "standings_type",
+                "value": "nhl_standings_type",
+                "valueType": "flow"
+            },
+            {
+                "property": "team_records",
+                "value": "teams",
+                "valueType": "flow"
+            }
+        ],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "$entity().state ? \"on\": \"off\"",
+        "outputPayloadType": "jsonata",
+        "x": 444,
+        "y": 1076,
+        "wires": [
+            [
+                "a211891c.67bbe8"
+            ]
+        ]
+    },
+    {
+        "id": "2a54fdfb.688c52",
+        "type": "ha-entity",
+        "z": "de8bfe3.4ac5e",
+        "name": "Honda West",
+        "server": "cacdccbf.2b6e9",
+        "version": 1,
+        "debugenabled": true,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "nhl_division_honda_west"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:hockey-sticks"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "teams[0].name",
+        "stateType": "flow",
+        "attributes": [
+            {
+                "property": "standings_type",
+                "value": "nhl_standings_type",
+                "valueType": "flow"
+            },
+            {
+                "property": "team_records",
+                "value": "teams",
+                "valueType": "flow"
+            }
+        ],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "$entity().state ? \"on\": \"off\"",
+        "outputPayloadType": "jsonata",
+        "x": 420,
+        "y": 1123,
+        "wires": [
+            [
+                "a211891c.67bbe8"
+            ]
+        ]
+    },
+    {
+        "id": "19f2c608.ef3c1a",
+        "type": "ha-entity",
+        "z": "de8bfe3.4ac5e",
+        "name": "Scotia North",
+        "server": "cacdccbf.2b6e9",
+        "version": 1,
+        "debugenabled": true,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "nhl_division_scotia_north"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:hockey-sticks"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "teams[0].name",
+        "stateType": "flow",
+        "attributes": [
+            {
+                "property": "standings_type",
+                "value": "nhl_standings_type",
+                "valueType": "flow"
+            },
+            {
+                "property": "team_records",
+                "value": "teams",
+                "valueType": "flow"
+            }
+        ],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "$entity().state ? \"on\": \"off\"",
+        "outputPayloadType": "jsonata",
+        "x": 420,
+        "y": 1180,
+        "wires": [
+            [
+                "a211891c.67bbe8"
+            ]
+        ]
+    },
+    {
+        "id": "b5ccc9b1.d864a8",
+        "type": "ha-entity",
+        "z": "de8bfe3.4ac5e",
+        "name": "Mass Mutual East",
+        "server": "cacdccbf.2b6e9",
+        "version": 1,
+        "debugenabled": true,
+        "outputs": 1,
+        "entityType": "sensor",
+        "config": [
+            {
+                "property": "name",
+                "value": "nhl_division_mass_mutual_east"
+            },
+            {
+                "property": "device_class",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": "mdi:hockey-sticks"
+            },
+            {
+                "property": "unit_of_measurement",
+                "value": ""
+            }
+        ],
+        "state": "teams[0].name",
+        "stateType": "flow",
+        "attributes": [
+            {
+                "property": "standings_type",
+                "value": "nhl_standings_type",
+                "valueType": "flow"
+            },
+            {
+                "property": "team_records",
+                "value": "teams",
+                "valueType": "flow"
+            }
+        ],
+        "resend": true,
+        "outputLocation": "",
+        "outputLocationType": "none",
+        "inputOverride": "allow",
+        "outputOnStateChange": false,
+        "outputPayload": "$entity().state ? \"on\": \"off\"",
+        "outputPayloadType": "jsonata",
+        "x": 440,
+        "y": 1020,
+        "wires": [
+            [
+                "a211891c.67bbe8"
+            ]
+        ]
+    },
+    {
+        "id": "d590ee0e.758c1",
+        "type": "change",
+        "z": "de8bfe3.4ac5e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "teams",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1040,
+        "y": 880,
+        "wires": [
+            [
+                "ceabfa12.079028"
+            ]
+        ]
+    },
+    {
+        "id": "5eea2213.58f9fc",
+        "type": "comment",
+        "z": "de8bfe3.4ac5e",
+        "name": "Fix up the team info for each division",
+        "info": "",
+        "x": 170,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "d04132b0.0bc8e",
+        "type": "comment",
+        "z": "de8bfe3.4ac5e",
+        "name": "Add teams to League Rankings",
+        "info": "After the teams in the Division are fixed up and spit out, iterate over them once again to put them into a League array sorted by their rank, which then gets spit out as a standings sensor.",
+        "x": 910,
+        "y": 1016,
+        "wires": []
+    },
+    {
+        "id": "d102c356.ebc68",
+        "type": "function",
+        "z": "de8bfe3.4ac5e",
+        "name": "Fix up team info",
+        "func": "function slugify(text)\n{\n  return text.toString().toLowerCase()\n    .replace(/\\s+/g, '_')           // Replace spaces with -\n    .replace(/[^\\w\\-]+/g, '_')       // Remove all non-word chars\n    .replace(/\\-\\-+/g, '-')         // Replace multiple - with single -\n    .replace(/^-+/, '')             // Trim - from start of text\n    .replace(/-+$/, '');            // Trim - from end of text\n}\nmsg.payload.team_entity_name = \"nhl_standings_\".concat(slugify(msg.payload.team.name));\nmsg.payload.logo =\"https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/\".concat(msg.payload.team.id,\".svg\");\nnameIndex = msg.payload.team.name.lastIndexOf(\" \");\nmsg.payload.team.locationName = msg.payload.team.name.substring(0,nameIndex);\nmsg.payload.team.teamName = msg.payload.team.name.substring(nameIndex+1,msg.payload.team.name.length);\nmsg.payload.team.teamLink = \"https://www.nhl.com/\"+msg.payload.team.teamName.toLowerCase();\nfor (let [key, value] of Object.entries(msg.payload.team)) {\n  msg.payload[key] = value;\n}\ndelete msg.payload.team;\nfor (let [key, value] of Object.entries(msg.payload.leagueRecord)) {\n  msg.payload[key] = value;\n}\ndelete msg.payload.leagueRecord;\nfor (let [key, value] of Object.entries(msg.payload.streak)) {\n  msg.payload[key] = value;\n}\ndelete msg.payload.streak;\nmsg.payload.records.overallRecords.forEach(function(record){\n  msg.payload[record['type'].concat('Record')] = record['wins']+'-'+record['losses']\n  if ('ot' in record) { msg.payload[record['type'].concat('Record')] += ('-' + record['ot'])}\n})\ndelete msg.payload.records;\nlet pp = msg.payload.pointsPercentage.toFixed(3)\nmsg.payload.pointsPercentage = pp\nlet diff = msg.payload.goalsScored - msg.payload.goalsAgainst;\nmsg.payload.diff = ['','+'][Number(diff > 0)] + diff;\nlet dict = flow.get('teams') || {};\ndict[parseInt(msg.payload.divisionRank)-1] = msg.payload;\nflow.set('teams', dict);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 820,
+        "y": 940,
+        "wires": [
+            [
+                "cc7d3f5d.d8e7b"
+            ]
+        ]
+    },
+    {
+        "id": "29131131.3c8b3e",
+        "type": "change",
+        "z": "de8bfe3.4ac5e",
+        "name": "Teams",
+        "rules": [
+            {
+                "t": "set",
+                "p": "teams",
+                "pt": "flow",
+                "to": "[]",
+                "tot": "json"
+            },
+            {
+                "t": "set",
+                "p": "teamRecords",
+                "pt": "flow",
+                "to": "payload.teamRecords",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 920,
+        "wires": [
+            [
+                "94957ed9.750bf"
+            ]
+        ]
+    },
+    {
+        "id": "94957ed9.750bf",
+        "type": "array-loop",
+        "z": "de8bfe3.4ac5e",
+        "name": "Iterate Teams",
+        "key": "al61a1ecc6700c16",
+        "keyType": "msg",
+        "reset": true,
+        "resetValue": "value-null",
+        "array": "teamRecords",
+        "arrayType": "flow",
+        "x": 560,
+        "y": 920,
+        "wires": [
+            [
+                "142af05d.c5f61"
+            ],
+            [
+                "d102c356.ebc68"
+            ]
+        ]
+    },
+    {
+        "id": "f63ac297.83ac7",
+        "type": "link in",
+        "z": "de8bfe3.4ac5e",
+        "name": "Continue Team Loop",
+        "links": [
+            "cc7d3f5d.d8e7b"
+        ],
+        "x": 405,
+        "y": 860,
+        "wires": [
+            [
+                "94957ed9.750bf"
+            ]
+        ]
+    },
+    {
+        "id": "cc7d3f5d.d8e7b",
+        "type": "link out",
+        "z": "de8bfe3.4ac5e",
+        "name": "Team Loop Out",
+        "links": [
+            "f63ac297.83ac7"
+        ],
+        "x": 1015,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "142af05d.c5f61",
+        "type": "change",
+        "z": "de8bfe3.4ac5e",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "teams",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 820,
+        "y": 880,
+        "wires": [
+            [
+                "d590ee0e.758c1"
+            ]
+        ]
+    },
+    {
+        "id": "ceabfa12.079028",
+        "type": "link out",
+        "z": "de8bfe3.4ac5e",
+        "name": "Divisions Publish Out",
+        "links": [
+            "c354fcee.b6149"
+        ],
+        "x": 1165,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "c354fcee.b6149",
+        "type": "link in",
+        "z": "de8bfe3.4ac5e",
+        "name": "Division Publish",
+        "links": [
+            "ceabfa12.079028"
+        ],
+        "x": 35,
+        "y": 1120,
+        "wires": [
+            [
+                "8aa2ff15.31b57"
+            ]
+        ]
+    },
+    {
+        "id": "349e1fd1.4cb3b",
+        "type": "comment",
+        "z": "de8bfe3.4ac5e",
+        "name": "Publish DIvision Sensor",
+        "info": "",
+        "x": 120,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "cacdccbf.2b6e9",
+        "type": "server",
+        "name": "Home Assistant",
+        "legacy": false,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open",
+        "connectionDelay": true,
+        "cacheJson": true
+    }
+]
