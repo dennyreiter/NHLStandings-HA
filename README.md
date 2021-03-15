@@ -31,7 +31,7 @@ The YAML file is for a complete dashboard.  You can paste it into the raw config
 | sensor.nhl_division_mass_mutual_east | East Division standings    | 
 
 ## Troubleshotting
-* If you've re-imoorted the flow, or cut and pasted parts, especially the entity nodes, you might have multiple entities, such as **nhl_standings_2**, so you'll have to remove or rename the orphaned entity and then renamed the duplicate to the original
+* If you've re-imported the flow, or cut and pasted parts, especially the entity nodes, you might have multiple entities, such as **nhl_standings_2**, so you'll have to remove or rename the orphaned entity and then renamed the duplicate to the original
 * If you receive the error "unknown arrays" when you deploy the first time in Node-RED, you don't have [node-red-contrib-loop-processing](https://flows.nodered.org/node/node-red-contrib-loop-processing) installed.  Install it in your pallette.
 
 
